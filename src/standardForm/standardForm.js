@@ -92,6 +92,21 @@ class StandardForm extends Component {
     });
   };
 
+  resetForm = () => {
+    this.setState({
+      username: '',
+      usernameValid: false,
+      email: '',
+      emailValid: false,
+      password: '',
+      passwordValid: '',
+      passwordConfirm: '',
+      passwordConfirmValid: false,
+      formValid: false,
+      errorMsg: {},
+    });
+  };
+
   render() {
     return (
       <div>
@@ -180,6 +195,21 @@ class StandardForm extends Component {
                 valid={this.passwordConfirmValid}
               />
             </span>
+          </div>
+          <div className="btn-group">
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={!this.state.formValid}
+            >
+              Submit
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={(this.resetForm = this.resetForm.bind(this))}
+            >
+              Reset
+            </button>
           </div>
         </form>
       </div>
