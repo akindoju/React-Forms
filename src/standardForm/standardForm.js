@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
 
+function ValidateMessage(props) {
+  if (!props.valid) {
+    return (
+      <div className="alert-danger" role="alert">
+        {props.message}
+      </div>
+    );
+  }
+  return null;
+}
+
 class StandardForm extends Component {
   state = {
     username: '',
@@ -40,10 +51,11 @@ class StandardForm extends Component {
     this.setState({ errorMsg, emailValid }, this.validateForm);
   };
 
-  validatepassword = () => {
+  validatePassword = () => {
     const { password } = this.state;
     let passwordValid = true;
     let errorMsg = { ...this.state.errorMsg };
+    errorMsg.password = '';
 
     if (password.length < 6) {
       passwordValid = false;
@@ -57,6 +69,7 @@ class StandardForm extends Component {
     const { passwordConfirm, password } = this.state;
     let passwordConfirmValid = true;
     let errorMsg = { ...this.state.errorMsg };
+    errorMsg.passwordConfirm = '';
 
     if (password !== passwordConfirm) {
       passwordConfirmValid = false;
@@ -91,8 +104,19 @@ class StandardForm extends Component {
               id="username"
               className="form-control"
               value={this.state.username}
-              onChange={(e) => this.setState({ username: e.target.value })}
+              onChange={(e) =>
+                this.setState(
+                  { username: e.target.value },
+                  this.validateUsername
+                )
+              }
             />
+            <span>
+              <ValidateMessage
+                valid={this.state.usernameValid}
+                message={this.state.errorMsg.username}
+              />
+            </span>
           </div>
 
           <div className="form-group">
@@ -102,8 +126,16 @@ class StandardForm extends Component {
               id="email"
               className="form-control"
               value={this.state.email}
-              onChange={(e) => this.setState({ email: e.target.value })}
+              onChange={(e) =>
+                this.setState({ email: e.target.value }, this.validateEmail)
+              }
             />
+            <span>
+              <ValidateMessage
+                message={this.state.errorMsg.email}
+                valid={this.emailValid}
+              />
+            </span>
           </div>
 
           <div className="form-group">
@@ -113,8 +145,19 @@ class StandardForm extends Component {
               id="password"
               className="form-control"
               value={this.state.password}
-              onChange={(e) => this.setState({ password: e.target.value })}
+              onChange={(e) =>
+                this.setState(
+                  { password: e.target.value },
+                  this.validatePassword
+                )
+              }
             />
+            <span>
+              <ValidateMessage
+                message={this.state.errorMsg.password}
+                valid={this.passwordValid}
+              />
+            </span>
           </div>
 
           <div className="form-group">
@@ -125,9 +168,18 @@ class StandardForm extends Component {
               className="form-control"
               value={this.state.passwordConfirm}
               onChange={(e) =>
-                this.setState({ passwordConfirm: e.target.value })
+                this.setState(
+                  { passwordConfirm: e.target.value },
+                  this.validateConfirmPassword
+                )
               }
             />
+            <span>
+              <ValidateMessage
+                message={this.state.errorMsg.passwordConfirm}
+                valid={this.passwordConfirmValid}
+              />
+            </span>
           </div>
         </form>
       </div>
