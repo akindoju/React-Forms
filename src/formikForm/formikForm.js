@@ -62,7 +62,7 @@ class FormikForm extends Component {
               setSubmitting(true);
               resetForm();
               setSubmitting(false);
-            }, 400);
+            }, 4000);
           }}
         >
           {({
@@ -150,6 +150,23 @@ class FormikForm extends Component {
                       //if errors.confirmPassword && touched.confirmPassword, then display error.confirmPassword
                     }
                   </span>
+                </div>
+                <div className="btn-group">
+                  <button
+                    disabled={isSubmitting}
+                    type="submit"
+                    className="btn-primary"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    disabled={!dirty}
+                    type="submit"
+                    className="btn-danger"
+                    onClick={handleReset}
+                  >
+                    Reset
+                  </button>
                 </div>
               </form>
             );
